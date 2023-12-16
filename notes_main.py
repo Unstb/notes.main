@@ -12,7 +12,7 @@ notes = {
         'теги' : ['добро', 'инстукция']
     }
 }
-with open('notes_data.json', 'w') as file:
+with open('notes_data.json', 'w', encoding = 'utf-8') as file:
     json.dump(notes, file)
 
 
@@ -95,28 +95,28 @@ notes_win.setLayout(layout_notes)
 '''Работа с текстом заметки'''
 
 def add_note():
-    note_name, ok = QInputDialog.getText(notes-wi, 'Добавить заметку', 'Название заметки: ')
+    note_name, ok = QInputDialog.getText(notes_win, 'Добавить заметку', 'Название заметки: ')
     if ok and note_name != '':
         notes[note_name] = {'текст' : '', 'теги' : []}
         list_notes.addItem(note_name)
-        llist_tags.addItems(notes[note_name]['теги'])
+        list_tags.addItems(notes[note_name]['теги'])
         print(notes)
 
 
 
 def show_note():
-    key = list_notes.selectedItems()[0].Text()
+    key = list_notes.selectedItems()[0].text()
     print(key)
     field_text.setText(notes[key]['текст'])
     list_tags.clear()
-    field_text.setText(notes[key]['теги'])
+    list_tags.addItems(notes[key]['теги'])
 
 
 def save_note():
     if list_notes.selectedItems():
-        key = list_notes.selectedItems()[0].Text()
+        key = list_notes.selectedItems()[0].text()
         notes[key]['текст'] = field_text.toPlainText()
-        with open('notes_data.json', 'w') as file:
+        with open('notes_data.json', 'w', encoding = 'utf-8') as file:
             json.dump(notes, file, sort_keys=True, ensure_ascii=False)
         print(notes)
     else:
@@ -131,7 +131,7 @@ def add_tag():
             notes[key]['теги'].append(tag)
             list_tags.addItem(tag)
             field_tag.clear()
-        with open('notes_data.json', 'w') as file:
+        with open('notes_data.json', 'w', encoding = 'utf-8') as file:
             json.dump(notes, file, sort_keys=True, ensure_ascii=False)
         print(notes)
     else:
@@ -145,8 +145,8 @@ def del_tag():
         tag = list_tags.selectedItems()[0].text()
         notes[key]['теги'].remove(tag)
         list_tags.clear()
-        list_tags.addItems(noets[key]['теги'])
-        with open('notes_data.json', 'w') as file:
+        list_tags.addItems(notes[key]['теги'])
+        with open('notes_data.json', 'w', encoding = 'utf-8') as file:
             json.dump(notes, file, sort_keys=True, ensure_ascii=False)
     else:
         print('Тег для удаления не выбрана!')
@@ -183,13 +183,13 @@ def search_tag():
 
 def del_note():
     if list_notes.selectedItems():
-        key = list_notes.selectedItems()[0].Text()
+        key = list_notes.selectedItems()[0].text()
         del notes[key]
         list_notes.clear()
-        liist_tags.clear()
-        fied_text.clear()
+        list_tags.clear()
+        field_text.clear()
         list_notes.addItems(notes)
-        with open('notes_data.json', 'w') as file:
+        with open('notes_data.json', 'w', encoding = 'utf-8') as file:
             json.dump(notes, file, sort_keys=True, ensure_ascii=False)
         print(notes)
     else:
@@ -210,7 +210,7 @@ notes_win.show()
 
 
 
-with open('notes_data.json', 'r') as file:
+with open('notes_data.json', 'r', encoding = 'utf-8') as file:
     notes = json.load(file)
 list_notes.addItems(notes)
 
